@@ -1,0 +1,13 @@
+// det här lärar exemplet är mer för frågesporten
+
+static void Fel() {
+    Console.WriteLine("Du gav fel svar");
+    Fel(); // kommer anropa metoden inuti metoden i oändlighet tills den get en stackoverflow
+}
+
+// vi anropar metoden Fel() och den gör allt som står inuti Fel()
+
+Fel();
+Fel();
+Fel();
+Fel();
