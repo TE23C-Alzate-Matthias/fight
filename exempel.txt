@@ -11,3 +11,61 @@ Fel();
 Fel();
 Fel();
 Fel();
+
+-------------------------------------------------
+// lärar exempel för fight spelet
+
+
+// skapar slump generator
+// Random generator = new Random();
+
+// nya rad i början i stringen \n räknas som enter
+// mycket bättre att använda en Console.WriteLine(" ");
+// Console.WriteLine("\n----- ===== NY RUNDA ===== -----");
+// Console.WriteLine($"{heroName}: {heroHp}  {villainName}: {villainHp}\n");
+
+// Next ger dig ett nytt slump tal upp till siffran i () - 1, altså i detta exempel 19
+// int heroDamage = generator.Next(20);
+
+//  tar två ints och ger oss det högsta av det, kommer aldrig vara under 0
+// villainHp = Math.Max(0, villainHp);
+
+--------------------------------------------
+=========DÅLIG VERSION=========
+
+Console.WriteLine("Skriv ditt namn: ");
+string name = Console.ReadLine();
+
+if (name == " ") {
+    Console.WriteLine("Namn sa jag, idiot!");
+    name = Console.ReadLine();
+}
+
+Console.WriteLine($"Hej {name}!");
+
+Console.ReadLine();
+
+---------------------------------
+=========BÄTTRE VERSION=========
+
+Console.WriteLine("Skriv ditt namn: ");
+string name = Console.ReadLine();
+
+// gör att namn måste vara mer än 3 karaktärer lång
+while (name.Lenght < 3) {
+    Console.WriteLine("Namn sa jag, idiot!");
+    name = Console.ReadLine();
+}
+
+Console.WriteLine($"Hej {name}!");
+
+Console.ReadLine();
+
+-----------------------------------
+
+while (true) {
+    int card = Random.Shard.Next();
+    Console.WriteLine(card);
+    Console.WriteLine(int.MaxValue)
+    Console.ReadLine();
+}

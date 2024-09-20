@@ -1,22 +1,11 @@
-﻿// skapar slump generator
-// Random generator = new Random();
+﻿int heroHp;
+int villanHp;
+int heroDmg;
+int villanDmg;
 
-// nya rad i början i stringen \n räknas som enter
-// mycket bättre att använda en Console.WriteLine(" ");
-// Console.WriteLine("\n----- ===== NY RUNDA ===== -----");
-// Console.WriteLine($"{heroName}: {heroHp}  {villainName}: {villainHp}\n");
-
-// Next ger dig ett nytt slump tal upp till siffran i () - 1, altså i detta exempel 19
-// int heroDamage = generator.Next(20);
-
-//  tar två ints och ger oss det högsta av det, kommer aldrig vara under 0
-// villainHp = Math.Max(0, villainHp);
-
-int heroHp = 100;
-int villanHp = 100;
-
-string heroName = "Hero";
-string villanName = "Villan";
+string choice = " ";
+string heroName;
+string villanName;
 string keepPlaying = "ja";
 
 Random generator = new Random();
@@ -25,19 +14,47 @@ while (keepPlaying == "ja")
 {
     heroHp = 100;
     villanHp = 100;
+    villanName = "Villan";
+
+    Console.Clear();
+    Console.WriteLine("Välj namn för din kämpe: ");
+    heroName = Console.ReadLine();
+
+    while (heroName.Length < 3) {
+        Console.WriteLine("Namnet är för kort, försök igen");
+        heroName = Console.ReadLine();
+    }
 
     while (heroHp > 0 && villanHp > 0)
     {
         Console.Clear();
         Console.WriteLine("======== NY RUNDA ========");
-        Console.WriteLine($"{heroName}: {heroHp}  {villanName}: {villanHp}\n");
+        Console.WriteLine($"{heroName}: {heroHp} Hp  {villanName}: {villanHp} Hp\n");
 
-        int heroDmg = generator.Next(20);
-        villanHp -= heroDmg;
-        villanHp = Math.Max(0, villanHp);
-        Console.WriteLine($"{heroName} gör {heroDmg} skada på {villanName}");
+        while (choice == " ") {
+        Console.WriteLine("Välj attack typ. a) Light Attack  b) Heavy Attack");
+        choice = Console.ReadLine();
+        
+        if (choice == "a") {
+            heroDmg = generator.Next(5, 20);
+            villanHp -= heroDmg;
+            villanHp = Math.Max(0, villanHp);
+            Console.WriteLine($"{heroName} gör {heroDmg} skada på {villanName}");
+        }
+        else if (choice == "b") {
+            heroDmg = generator.Next(10, 40);
+            villanHp -= heroDmg;
+            villanHp = Math.Max(0, villanHp);
+            Console.WriteLine($"{heroName} gör {heroDmg} skada på {villanName}");
+        }
+        else {
+            choice = " ";
+            Console.WriteLine("Okänt Svar, försök igen\n");
+        }
+        }
 
-        int villanDmg = generator.Next(20);
+        choice = " ";
+        villanDmg = generator.Next(1, 20);
         heroHp -= villanDmg;
         heroHp = Math.Max(0, heroHp);
         Console.WriteLine($"{villanName} gör {villanDmg} skada på {heroName}");
@@ -50,18 +67,17 @@ while (keepPlaying == "ja")
 
     if (heroHp == 0 && villanHp == 0)
     {
-        Console.WriteLine("BÅDA SVIMMADE, DET ÄR OAVGJORT");
+        Console.WriteLine("BÅDA SVIMMADE, DET ÄR OAVGJORT\n");
     }
     else if (heroHp == 0)
     {
-        Console.WriteLine($"{heroName} svimmade, {villanName} vann!");
+        Console.WriteLine($"{heroName} svimmade, {villanName} vann!\n");
     }
     else
     {
-        Console.WriteLine($"{villanName} svimmade, {heroName} vann!");
+        Console.WriteLine($"{villanName} svimmade, {heroName} vann!\n");
     }
 
-    Console.WriteLine(" ");
     Console.WriteLine("Om du vill starta om spelet skriv: ja. Lämna det tomt om inte");
     keepPlaying = Console.ReadLine();
 
