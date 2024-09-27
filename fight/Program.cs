@@ -7,8 +7,9 @@ int heroDmg;
 int villanDmg;
 int accuracy;
 int randomIndex;
+int randomChoice;
 
-string choice;
+string attackChoice;
 string heroName;
 string villanName;
 string keepPlaying = "ja";
@@ -18,11 +19,14 @@ string[] acceptable = ["a", "b", "1", "2"];
 
 Random generator = new Random();
 
+// checkar att texten man skirver in har siffor i sig, om den har det så säts den på true och om inte så sätts den på false
 bool ContainsNumbers(string input)
 {
     return Regex.IsMatch(input, @"\d");
 }
 
+
+// ==================== FIGHT START ======================
 
 while (keepPlaying == "ja")
 {
@@ -35,21 +39,30 @@ while (keepPlaying == "ja")
     Console.WriteLine("Välj namn för din kämpe (3-7 långt utan nummer): ");
     heroName = Console.ReadLine();
 
-    while (heroName.Length < 3 || heroName.Length > 7 || ContainsNumbers(heroName)) {
-        if (heroName.Length < 3) {
+    while (heroName.Length < 3 || heroName.Length > 7 || ContainsNumbers(heroName))
+    {   
+        // om namnet är kortare än 3 ber den dig att försöka igen
+        if (heroName.Length < 3)
+        {
             Console.WriteLine("Namnet är för kort, försök igen");
             heroName = Console.ReadLine();
         }
-        else if (heroName.Length > 7) {
+        // om namnet är längre än 7 ber den dig att försöka igen
+        else if (heroName.Length > 7)
+        {
             Console.WriteLine("Namnet är för långt, försök igen");
             heroName = Console.ReadLine();
         }
-        else if (ContainsNumbers(heroName)) {
+        // om namnet har nummer i sig så ber den dig att försöka igen
+        else if (ContainsNumbers(heroName))
+        {
             Console.WriteLine("Namnet har nummer i sig, försök igen");
             heroName = Console.ReadLine();
         }
     }
-    
+
+
+    // =========================== NEW ROUND =========================
 
     while (heroHp > 0 && villanHp > 0)
     {
@@ -57,51 +70,107 @@ while (keepPlaying == "ja")
         Console.WriteLine("======== NY RUNDA ========");
         Console.WriteLine($"{heroName}: {heroHp} Hp  {villanName}: {villanHp} Hp\n");
 
-        Console.WriteLine("--- Välj attack typ ---\na) Light Attack: 5-20 Dmg\nb) Heavy Attack: 10-40 Dmg");
-        choice = Console.ReadLine();
+        // låter användaren välja om de vill göra en heavy attack eller light attack
+        Console.WriteLine("--- Välj attack typ ---\na) Light Attack: 5-20 Dmg, 90% Accuracy\nb) Heavy Attack: 10-40 Dmg, 40% Accuracy");
+        attackChoice = Console.ReadLine();
 
-        while (!acceptable.Contains(choice)) {
+        // om svaret man sätter inte är a, b, 1 eller 2 så ber den dig att försöka igen
+        while (!acceptable.Contains(attackChoice))
+        {
             Console.WriteLine("Okänt Svar, försök igen\n");
-            choice = Console.ReadLine();
+            attackChoice = Console.ReadLine();
         }
 
-        if (choice == "a" || choice == "1") {
+
+        // ==================== HERO ATTACK =====================
+
+        // om man väljer a eller 1 försöker användaren göra en light attack
+        if (attackChoice == "a" || attackChoice == "1")
+        {
 
             accuracy = generator.Next(1, 101);
 
-            if (accuracy > 90) {
+            if (accuracy > 91)
+            {
                 Console.WriteLine($"{heroName} missade sin attack");
             }
-            else {
+            else
+            {
                 heroDmg = generator.Next(5, 21);
                 villanHp -= heroDmg;
                 villanHp = Math.Max(0, villanHp);
                 Console.WriteLine($"{heroName} använder light attack!\n{heroName} gör {heroDmg} skada på {villanName}");
             }
         }
-        else if (choice == "b" || choice == "2") {
+        // om man väljer b eller 2 försöker användaren föra en heavy attack
+        else if (attackChoice == "b" || attackChoice == "2")
+        {
 
             accuracy = generator.Next(1, 101);
 
-            if (accuracy > 50) {
+            if (accuracy > 41)
+            {
                 Console.WriteLine($"{heroName} missade sin attack");
             }
-            else {
-                heroDmg = generator.Next(10, 41);
+            else
+            {
+                heroDmg = generator.Next(15, 41);
                 villanHp -= heroDmg;
                 villanHp = Math.Max(0, villanHp);
                 Console.WriteLine($"{heroName} använder heavy attack!\n{heroName} gör {heroDmg} skada på {villanName}");
             }
         }
 
-        villanDmg = generator.Next(1, 20);
-        heroHp -= villanDmg;
-        heroHp = Math.Max(0, heroHp);
-        Console.WriteLine($"{villanName} gör {villanDmg} skada på {heroName}");
 
+        //  ==================== VILLAN ATTACK ========================
+
+        // ger villan en random attack typ
+        randomChoice = generator.Next(2);
+
+        if (randomChoice == 0) {
+        accuracy = generator.Next(1, 101);
+
+            if (accuracy > 91)
+            {
+                Console.WriteLine($"{heroName} missade sin attack");
+            }
+            else
+            {
+                heroDmg = generator.Next(5, 21);
+                villanHp -= heroDmg;
+                villanHp = Math.Max(0, villanHp);
+                Console.WriteLine($"{heroName} använder light attack!\n{heroName} gör {heroDmg} skada på {villanName}");
+            }
+        }
+        else if (randomChoice == 1)
+        {
+
+            accuracy = generator.Next(1, 101);
+
+            if (accuracy > 41)
+            {
+                Console.WriteLine($"{villanName} missade sin attack");
+            }
+            else
+            {
+                villanDmg = generator.Next(15, 41);
+                heroHp -= villanDmg;
+                heroHp = Math.Max(0, heroHp);
+                Console.WriteLine($"{villanName} använder heavy attack!\n{villanName} gör {villanDmg} skada på {heroName}");
+            }
+            
+        }
+
+
+        // ============== ROUND END =====================
+
+        // för att fortsätta fighten klicka på vilken knapp som man vill
         Console.WriteLine("Tryck på valfri knapp för att fortsätta");
         Console.ReadKey();
     }
+
+
+    // ======================== FIGHT END ========================
 
     Console.WriteLine("\n======== STRIDEN ÄR ÖVER ========");
 
@@ -118,6 +187,7 @@ while (keepPlaying == "ja")
         Console.WriteLine($"{villanName} svimmade, {heroName} vann!\n");
     }
 
+    // om man svarar ja så börjar koden om igen från rad 29
     Console.WriteLine("Om du vill starta om spelet skriv: ja. Lämna det tomt om inte");
     keepPlaying = Console.ReadLine();
 
