@@ -69,3 +69,8 @@ while (true) {
     Console.WriteLine(int.MaxValue)
     Console.ReadLine();
 }
+
+------------------------------------
+
+om man vill byta namn på en variabel som man har använt på andra ställern
+kan man klicka F2 för att byta namnet på en specifik variabel överalt

@@ -84,11 +84,11 @@ while (keepPlaying == "ja")
 
         // ==================== HERO ATTACK =====================
 
+        accuracy = generator.Next(1, 101);
+
         // om man väljer a eller 1 försöker användaren göra en light attack
         if (attackChoice == "a" || attackChoice == "1")
         {
-
-            accuracy = generator.Next(1, 101);
 
             if (accuracy > 91)
             {
@@ -105,8 +105,6 @@ while (keepPlaying == "ja")
         // om man väljer b eller 2 försöker användaren föra en heavy attack
         else if (attackChoice == "b" || attackChoice == "2")
         {
-
-            accuracy = generator.Next(1, 101);
 
             if (accuracy > 41)
             {
@@ -126,9 +124,9 @@ while (keepPlaying == "ja")
 
         // ger villan en random attack typ
         randomChoice = generator.Next(2);
+        accuracy = generator.Next(1, 101);
 
         if (randomChoice == 0) {
-        accuracy = generator.Next(1, 101);
 
             if (accuracy > 91)
             {
@@ -136,16 +134,14 @@ while (keepPlaying == "ja")
             }
             else
             {
-                heroDmg = generator.Next(5, 21);
-                villanHp -= heroDmg;
-                villanHp = Math.Max(0, villanHp);
-                Console.WriteLine($"{heroName} använder light attack!\n{heroName} gör {heroDmg} skada på {villanName}");
+                villanDmg = generator.Next(5, 21);
+                heroHp -= villanDmg;
+                heroHp = Math.Max(0, heroHp);
+                Console.WriteLine($"{villanName} använder light attack!\n{villanName} gör {villanDmg} skada på {heroName}");
             }
         }
         else if (randomChoice == 1)
         {
-
-            accuracy = generator.Next(1, 101);
 
             if (accuracy > 41)
             {
